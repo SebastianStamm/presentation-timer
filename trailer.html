@@ -1,0 +1,43 @@
+<link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+<div id="bg" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0;" />
+<h1 style="font-family: 'Roboto Mono', monospace; text-align: center; color: white; font-size: 5em;">Spring Hack Day Presentations</h1>
+<h1 style="font-family: 'Roboto Mono', monospace; text-align: center; color: white; font-size: 3em;"><i>Optional Subtitle not available</i></h1>
+<h2 style="font-family: 'Roboto Mono', monospace; text-align: center; color: white; font-size: 2em;">Starting in <span id="timer">99:99</span></h2>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/97/three.min.js">
+</script>
+<script src="https://www.vantajs.com/dist/vanta.net.min.js"></script>
+<script>
+  VANTA.NET({
+    el: "#bg",
+    color: 0x3fa4ff
+  })
+</script>
+
+
+<script>
+  const endTime = new Date("2019-04-05T16:00:00.000+0200").valueOf();
+  function animate() {
+    const now = Date.now();
+    if (endTime - now > 0) {
+      // render time after
+      timer.textContent = convertRemaining(endTime - now);
+    } else {
+      timer.textContent = "00:00";
+    }
+    requestAnimationFrame(animate);
+  }
+  function convertRemaining(milliseconds) {
+    const minutes = Math.floor(milliseconds / 60 / 1000);
+    const seconds = Math.floor((milliseconds / 1000) % 60);
+    const ms = Math.floor((milliseconds % 1000) / 10);
+    return leftPad(minutes) + ":" + leftPad(seconds);
+    // if (minutes) {
+    // } else {
+    //   return leftPad(seconds) + ":" + leftPad(ms);
+    // }
+  }
+  function leftPad(number) {
+    return number.toString().length < 2 ? "0" + number : number;
+  }
+  requestAnimationFrame(animate);
+</script>
