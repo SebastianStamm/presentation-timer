@@ -7,34 +7,14 @@
   .header {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    height: 50px;
+    height: 75px;
     z-index: 10000;
-    background-color: white;
+    background-color:rgba(255, 255, 255, 0.75);
+  }
+  .grid {
+    margin: 0px !important;
   }
 </style>
-<div id="bg" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0;" />
-<h1 style="font-family: 'Roboto Mono', monospace; text-align: center; color: white; font-size: 5em;" id="title"
-  contenteditable="true">Spring Hack Day Presentations</h1>
-<h1 style="font-family: 'Roboto Mono', monospace; text-align: center; color: white; font-size: 3em;" id="subtitle"
-  contenteditable="true"><i>Optional Subtitle not available</i></h1>
-<h2 style="font-family: 'Roboto Mono', monospace; text-align: center; color: white; font-size: 2em;"
-  contenteditable="true">Starting at <span id="timer">2019-04-05T16:00:00.000+0200</span></h2>
-<h3 style="font-family: 'Roboto Mono', monospace; text-align: center; color: white; font-size: 2em; cursor: pointer;"><a
-    hfref="#" onclick="submitForm()">Go!</a></h3>
-
-
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/97/three.min.js">
-</script>
-<script src="https://www.vantajs.com/dist/vanta.net.min.js"></script>
-<script>
-  VANTA.NET({
-    el: "#bg",
-    color: 0x3fa4ff
-  })
-</script>
-
 
 <script>
   const config = JSON.parse(localStorage.getItem('countdownConfig') || `{"title":"Title","subtitle":"Subtitle","time":"2019-04-05T16:00:00.000+0200","effect":"net"}`);
@@ -43,42 +23,51 @@
   function loadVisuals(effect) {
     // Setup Page
     var  visualSource = effect + '/index.js';
+
     var script = document.createElement('script');
     script.onload = function () {
+      if(typeof calendarInput !== 'undefined')
+        var calValue = calendarInput.value
       window.createMarkup(true);
 
       document.body.innerHTML += `
       <div class="header">
       <div class="ui grid">
           <div class="four wide column">
-
-
         Effect:
-      <select onchange="loadNewVisuals()" class="ui dropdown" id="effect">
-          <option>Effect</option>
-          <option value="net" id="net">net</option>
-          <option value="birds" id="birds">birds</option>
-          <option value="camunda" id="camunda">camunda</option>
-      </select>
-    </div>
-
-    <div class="four wide column">
-      <div class="ui calendar" id="calendar">
-    <div class="ui input left icon">
-      <i class="calendar icon"></i>
-      <input id="calendarInput" type="text" placeholder="Start Date">
+        <select onchange="loadNewVisuals()" class="ui dropdown" id="effect">
+            <option>Effect</option>
+            <option value="net" id="net">net</option>
+            <option value="birds" id="birds">birds</option>
+            <option value="camunda" id="camunda">camunda</option>
+        </select>
       </div>
-    </div>
+
+      <div class="four wide column">
+        <div class="ui calendar" id="calendar">
+      <div class="ui input left icon">
+        <i class="calendar icon"></i>
+        <input id="calendarInput" type="text" placeholder="Start Date">
+        </div>
+      </div>
 
       </div>
 
       <div class="four wide column">
+      <div class="ui toggle checkbox" style="padding-top: 10px">
+        <input type="checkbox" name="panicMode" id="panicMode">
+        <label style="font-size: 16px">Enable Epic Mode</label>
+      </div>
+    </div>
+
+      <div class="four wide column">
           <button class="ui button" onclick="submitForm()">
-            Go
+            🚀
           </button>
 
       </div>
-      </div>
+    </div>
+    </div>
     `;
       $('#calendar')
         .calendar()
@@ -87,46 +76,51 @@
       document.getElementById(effect).selected = 'selected';
 
       //do stuff with the script
-      if(title) {
+      if(typeof title !== 'undefined') {
       title.textContent = config.title;
       title.contentEditable = true;
       }
-      if(subtitle)
+      if(typeof subtitle !== 'undefined')
       {
         subtitle.textContent = config.subtitle;
         subtitle.contentEditable = true;
       }
+      if(typeof calValue !== 'undefined')
+        calendarInput.value = calValue;
+
       function convertRemaining(milliseconds) {
         const minutes = Math.floor(milliseconds / 60 / 1000);
         const seconds = Math.floor((milliseconds / 1000) % 60);
         const ms = Math.floor((milliseconds % 1000) / 10);
         return leftPad(minutes) + ":" + leftPad(seconds);
-        // if (minutes) {
-        // } else {
-        //   return leftPad(seconds) + ":" + leftPad(ms);
-        // }
       }
       function leftPad(number) {
         return number.toString().length < 2 ? "0" + number : number;
       }
-      //requestAnimationFrame(animate);
+      saveConfig();
     };
     script.src = visualSource;
 
-    document.head.appendChild(script); //or something of the likes
+    document.head.appendChild(script);
   }
 
   loadVisuals(config.effect);
 
-  function submitForm(event) {
-    console.log(moment(calendarInput.value).toISOString());
+  function saveConfig() {
     var config = {
       title: title.textContent,
       subtitle: subtitle.textContent,
       time: moment(calendarInput.value).toISOString(),
-      effect: effect.value
+      effect: effect.value,
+      panicMode: panicMode.checked
     };
     localStorage.setItem('countdownConfig', JSON.stringify(config));
+    console.log(panicMode);
+  }
+
+  function submitForm(event) {
+    console.log(moment(calendarInput.value).toISOString());
+    saveConfig();
     window.location.replace("trailer.html");
     return false;
   }
