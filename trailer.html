@@ -3,10 +3,6 @@
 
   const endTime = new Date(config.time).valueOf();
 
-  if(!endTime || (endTime - Date.now() <= 0)) {
-    window.location.replace("setup.html");
-  }
-
   const visualSource = config.effect + '/index.js';
 
   // Setup Page

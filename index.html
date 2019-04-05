@@ -26,20 +26,29 @@
 
     var script = document.createElement('script');
     script.onload = function () {
-      if(typeof calendarInput !== 'undefined')
+      if(typeof calendarInput !== 'undefined') {
         var calValue = calendarInput.value
+      }
+      else {
+        if (config.time) {
+          calValue = config.time;
+        }
+      }
       window.createMarkup(true);
 
       document.body.innerHTML += `
       <div class="header">
       <div class="ui grid">
+          <div class="one wide column"></div>
           <div class="four wide column">
         Effect:
         <select onchange="loadNewVisuals()" class="ui dropdown" id="effect">
             <option>Effect</option>
             <option value="net" id="net">net</option>
             <option value="birds" id="birds">birds</option>
-            <option value="camunda" id="camunda">camunda</option>
+            <option value="clouds" id="clouds">clouds</option>
+            <option value="fog" id="fog">fog</option>
+            <option value="rings" id="rings">rings</option>
         </select>
       </div>
 
@@ -47,7 +56,7 @@
         <div class="ui calendar" id="calendar">
       <div class="ui input left icon">
         <i class="calendar icon"></i>
-        <input id="calendarInput" type="text" placeholder="Start Date">
+        <input id="calendarInput" type="text" placeholder="Start Date" autocomplete="off">
         </div>
       </div>
 
@@ -60,7 +69,7 @@
       </div>
     </div>
 
-      <div class="four wide column">
+      <div class="three wide column">
           <button class="ui button" onclick="submitForm()">
             🚀
           </button>
@@ -70,8 +79,9 @@
     </div>
     `;
       $('#calendar')
-        .calendar()
-      ;
+        .calendar({
+          ampm: false
+          })    ;
       console.log(document.getElementById(effect));
       document.getElementById(effect).selected = 'selected';
 
