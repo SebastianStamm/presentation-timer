@@ -47,7 +47,7 @@
     script.onload = function () {
       window.createMarkup(true);
 
-      document.getElementById('bg').innerHTML += `
+      document.body.innerHTML += `
       <div class="header">
       <div class="ui grid">
           <div class="four wide column">
@@ -87,9 +87,15 @@
       document.getElementById(effect).selected = 'selected';
 
       //do stuff with the script
+      if(title) {
       title.textContent = config.title;
-      subtitle.textContent = config.subtitle;
-
+      title.contentEditable = true;
+      }
+      if(subtitle)
+      {
+        subtitle.textContent = config.subtitle;
+        subtitle.contentEditable = true;
+      }
       function convertRemaining(milliseconds) {
         const minutes = Math.floor(milliseconds / 60 / 1000);
         const seconds = Math.floor((milliseconds / 1000) % 60);
