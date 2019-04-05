@@ -1,7 +1,7 @@
 <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
 <div id="bg" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0;" />
-<h1 style="font-family: 'Roboto Mono', monospace; text-align: center; color: white; font-size: 5em;">Spring Hack Day Presentations</h1>
-<h1 style="font-family: 'Roboto Mono', monospace; text-align: center; color: white; font-size: 3em;"><i>Optional Subtitle not available</i></h1>
+<h1 style="font-family: 'Roboto Mono', monospace; text-align: center; color: white; font-size: 5em;" id="title">Spring Hack Day Presentations</h1>
+<h1 style="font-family: 'Roboto Mono', monospace; text-align: center; color: white; font-size: 3em;" id="subtitle"><i>Optional Subtitle not available</i></h1>
 <h2 style="font-family: 'Roboto Mono', monospace; text-align: center; color: white; font-size: 2em;">Starting in <span id="timer">99:99</span></h2>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/97/three.min.js">
 </script>
@@ -15,7 +15,17 @@
 
 
 <script>
-  const endTime = new Date("2019-04-04T17:13:00.000+0200").valueOf();
+  const config = JSON.parse(localStorage.getItem('countdownConfig') || '{}');
+
+  const endTime = new Date(config.time).valueOf();
+
+  if(!endTime || (endTime - Date.now() <= 0)) {
+    window.location.replace("setup.html");
+  }
+
+  title.textContent = config.title;
+  subtitle.textContent = config.subtitle;
+
   function animate() {
     const now = Date.now();
     if (endTime - now > 0) {

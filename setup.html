@@ -1,0 +1,53 @@
+<link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+<div id="bg" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0;" />
+<h1 style="font-family: 'Roboto Mono', monospace; text-align: center; color: white; font-size: 5em;" id="title" contenteditable="true">Spring Hack Day Presentations</h1>
+<h1 style="font-family: 'Roboto Mono', monospace; text-align: center; color: white; font-size: 3em;" id="subtitle" contenteditable="true"><i>Optional Subtitle not available</i></h1>
+<h2 style="font-family: 'Roboto Mono', monospace; text-align: center; color: white; font-size: 2em;" contenteditable="true">Starting at <span id="timer">2019-04-05T16:00:00.000+0200</span></h2>
+<h3 style="font-family: 'Roboto Mono', monospace; text-align: center; color: white; font-size: 2em; cursor: pointer;"><a hfref="#" onclick="submitForm()">Go!</a></h3>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/97/three.min.js">
+</script>
+<script src="https://www.vantajs.com/dist/vanta.net.min.js"></script>
+<script>
+  VANTA.NET({
+    el: "#bg",
+    color: 0x3fa4ff
+  })
+</script>
+
+
+<script>
+    function submitForm(event) {
+      var config = {
+        title: title.textContent,
+        subtitle: subtitle.textContent,
+        time: timer.textContent
+      };
+      localStorage.setItem('countdownConfig', JSON.stringify(config));
+      window.location.replace("trailer.html");
+      return false;
+    }
+</script>
+
+
+<script>
+  const effects = {
+    birds:
+     `<script src="three.r92.min.js"></script>
+      <script src="vanta.birds.min.js"></script>
+      <script>
+      VANTA.BIRDS({
+        el: "#your-element-selector"
+      })
+      </script>`,
+    fog:
+     `<script src="three.r92.min.js"></script>
+      <script src="vanta.fog.min.js"></script>
+      <script>
+      VANTA.FOG({
+        el: "#your-element-selector"
+      })
+      </script>`
+  };
+</script>
