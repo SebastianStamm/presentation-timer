@@ -1,8 +1,8 @@
 var markup = `
   <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
   <div id="bg" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0;" />
-  <h1 style="font-family: 'Roboto Mono', monospace; text-align: center; color: gray; font-size: 5em; margin-top: 200px" id="title">Spring Hack Day Presentations</h1>
-  <h1 style="font-family: 'Roboto Mono', monospace; text-align: center; color: gray; font-size: 3em;" id="subtitle"><i>Optional Subtitle not available</i></h1>
+  <h1 style="font-family: 'Roboto Mono', monospace; text-align: center; color: gray; font-size: 5em; margin-top: 200px" id="title"></h1>
+  <h1 style="font-family: 'Roboto Mono', monospace; text-align: center; color: gray; font-size: 3em; font-style: italic" id="subtitle"></h1>
   <h2 style="font-family: 'Roboto Mono', monospace; text-align: center; color: gray; font-size: 2em;">Starting in <span id="timer">99:99</span></h2>
 `
 

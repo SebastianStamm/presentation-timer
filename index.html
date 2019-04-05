@@ -17,7 +17,7 @@
 </style>
 
 <script>
-  const config = JSON.parse(localStorage.getItem('countdownConfig') || `{"title":"Title","subtitle":"Subtitle","time":"2019-04-05T16:00:00.000+0200","effect":"net"}`);
+  const config = JSON.parse(localStorage.getItem('countdownConfig') || `{"title":"Title","subtitle":"Subtitle","effect":"net"}`);
 
 
   function loadVisuals(effect) {
@@ -34,6 +34,20 @@
           calValue = config.time;
         }
       }
+      var panic, titleVal, subtitleVal
+      if(typeof panicMode !== 'undefined') {
+        panic = panicMode.checked;
+      }
+
+      if(document.getElementById('title'))
+        titleVal = document.getElementById('title').textContent;
+      titleVal = titleVal || config.title;
+
+      if(document.getElementById('subtitle'))
+      subtitleVal = document.getElementById('subtitle').textContent;
+      subtitleVal = subtitleVal || config.subtitle;
+
+
       window.createMarkup(true);
 
       document.body.innerHTML += `
@@ -41,14 +55,13 @@
       <div class="ui grid">
           <div class="one wide column"></div>
           <div class="four wide column">
-        Effect:
         <select onchange="loadNewVisuals()" class="ui dropdown" id="effect">
-            <option>Effect</option>
-            <option value="net" id="net">net</option>
-            <option value="birds" id="birds">birds</option>
-            <option value="clouds" id="clouds">clouds</option>
-            <option value="fog" id="fog">fog</option>
-            <option value="rings" id="rings">rings</option>
+            <option value="net" id="net">Network</option>
+            <option value="birds" id="birds">Birds</option>
+            <option value="clouds" id="clouds">Clouds</option>
+            <option value="fog" id="fog">Fog</option>
+            <option value="rings" id="rings">Rings</option>
+            <option value="cells" id="cells">Cells</option>
         </select>
       </div>
 
@@ -65,7 +78,7 @@
       <div class="four wide column">
       <div class="ui toggle checkbox" style="padding-top: 10px">
         <input type="checkbox" name="panicMode" id="panicMode">
-        <label style="font-size: 16px">Enable Epic Mode</label>
+        <label for="panicMode" style="font-size: 16px; cursor: ">Enable Epic Mode</label>
       </div>
     </div>
 
@@ -85,20 +98,30 @@
       console.log(document.getElementById(effect));
       document.getElementById(effect).selected = 'selected';
 
-      //do stuff with the script
+
+      if(panic) {
+        panicMode.checked = "checked"
+      }
+
+      if(titleVal) {
+        title.textContent = titleVal
+      }
+
+      if(subtitleVal) {
+        subtitle.textContent = subtitleVal
+      }
+
       if(typeof title !== 'undefined') {
-      title.textContent = config.title;
       title.contentEditable = true;
       }
       if(typeof subtitle !== 'undefined')
       {
-        subtitle.textContent = config.subtitle;
         subtitle.contentEditable = true;
       }
       if(typeof calValue !== 'undefined')
         calendarInput.value = calValue;
 
-      saveConfig();
+      //saveConfig();
     };
     script.src = visualSource;
 

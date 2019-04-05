@@ -13,11 +13,11 @@ window.createMarkup = () => {
     script.onload = () => {
       {
         const script = document.createElement('script');
-        script.src = 'https://www.vantajs.com/dist/vanta.fog.min.js';
+        script.src = 'https://www.vantajs.com/dist/vanta.cells.min.js';
         script.onload = () => {
           {
             const script = document.createElement('script');
-            script.innerHTML = ` VANTA.FOG({
+            script.innerHTML = ` VANTA.CELLS({
               el: "#bg"
             })`;
 
