@@ -1,5 +1,6 @@
-var markup = `
-  <img src="/camunda/camunda.svg" style="position: absolute; width: 30vw; margin-left: 35vw; margin-top: 100px;" />
+window.createMarkup = () => {
+  const markup = `
+  <img src="camunda.svg" style="position: absolute; width: 30vw; margin-left: 35vw; margin-top: 100px;" />
   <div id="container"></div>
   <svg style="position: absolute; bottom: 0; width: 100%" viewBox="0 0 580 400">
   <ellipse fill="rgba(0,0,0,0.7)" stroke="#000" stroke-width="1.5" cx="290" cy="450" id="svg_1" rx="398" ry="139.5" stroke-dasharray="none" fill-opacity="1"></ellipse>
@@ -9,7 +10,6 @@ var markup = `
   <div id="subtitle" style="display: none"></div>
 `;
 
-window.createMarkup = () => {
   document.body.innerHTML = markup;
 
   document.body.style.margin = '0';
@@ -20,13 +20,13 @@ window.createMarkup = () => {
   font.setAttribute('ref', 'stylesheet');
   document.head.appendChild(font);
 
-  ["/camunda/three.js"].forEach(src => {
+  ["three.js"].forEach(src => {
     const scriptTag = document.createElement("script");
     scriptTag.setAttribute("src", src);
     document.head.appendChild(scriptTag);
   });
   setTimeout(() => {
-    ["/camunda/GPUParticleSystem.js"].forEach(src => {
+    ["GPUParticleSystem.js"].forEach(src => {
       const scriptTag = document.createElement("script");
       scriptTag.setAttribute("src", src);
       document.head.appendChild(scriptTag);
