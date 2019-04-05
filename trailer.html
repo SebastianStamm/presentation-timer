@@ -15,7 +15,7 @@
 
 
 <script>
-  const endTime = new Date("2019-04-05T16:00:00.000+0200").valueOf();
+  const endTime = new Date("2019-04-04T17:13:00.000+0200").valueOf();
   function animate() {
     const now = Date.now();
     if (endTime - now > 0) {
@@ -30,11 +30,11 @@
     const minutes = Math.floor(milliseconds / 60 / 1000);
     const seconds = Math.floor((milliseconds / 1000) % 60);
     const ms = Math.floor((milliseconds % 1000) / 10);
-    return leftPad(minutes) + ":" + leftPad(seconds);
-    // if (minutes) {
-    // } else {
-    //   return leftPad(seconds) + ":" + leftPad(ms);
-    // }
+    if (minutes) {
+      return leftPad(minutes) + ":" + leftPad(seconds);
+    } else {
+      return leftPad(seconds) + ":" + leftPad(ms);
+    }
   }
   function leftPad(number) {
     return number.toString().length < 2 ? "0" + number : number;
