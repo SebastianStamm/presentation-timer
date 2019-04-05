@@ -1,9 +1,23 @@
 const markup = `
-	<div id="container"></div>
+  <div id="container"></div>
+  <svg style="position: absolute; bottom: 0; width: 100%" viewBox="0 0 580 400">
+  <ellipse fill="rgba(0,0,0,0.7)" stroke="#000" stroke-width="1.5" cx="290" cy="450" id="svg_1" rx="398" ry="139.5" stroke-dasharray="none" fill-opacity="1"></ellipse>
+  </svg>
+  <div id="timer" style="font-family: 'Roboto Mono', monospace; position: absolute; bottom: 60px; width: 100%; text-align: center; font-size: 130px; color: white;">12:34</div>
+  <div id="title" style="font-family: 'Roboto Mono', monospace; position: absolute; top: 60px; width: 100%; text-align: center; font-size: 70px; color: white;">Spring Hack Day Presentations<div>
+  <div id="subtitle" style="display: none"></div>
 `;
 
 window.createMarkup = () => {
   document.body.innerHTML = markup;
+
+  document.body.style.margin = '0';
+  document.body.style.overflow = 'hidden';
+
+  const font = document.createElement('link');
+  font.setAttribute('href', 'https://fonts.googleapis.com/css?family=Roboto+Mono');
+  font.setAttribute('ref', 'stylesheet');
+  document.head.appendChild(font);
 
   ["three.js"].forEach(src => {
     const scriptTag = document.createElement("script");
@@ -22,7 +36,7 @@ window.createMarkup = () => {
     var camera, tick = 0,
     scene, renderer, clock = new THREE.Clock(),
     controls, container,
-    options, spawnerOptions, particleSystem;
+    options, spawnerOptions, particleSystem, spawner, timeScale;
   var stats;
   init();
   animate();
@@ -41,28 +55,102 @@ window.createMarkup = () => {
     } );
     scene.add( particleSystem );
     // options passed during each spawned
-    options = {
-      position: new THREE.Vector3(),
+
+    timeScale = 0.3;
+
+    spawner = [
+      {options: {
+        position: new THREE.Vector3(),
       positionRandomness: .3,
       velocity: new THREE.Vector3(),
       velocityRandomness: .5,
-      color: 0xaa88ff,
+      color: 0xc60029,
       colorRandomness: .2,
       turbulence: .5,
       lifetime: 2,
       size: 5,
       sizeRandomness: 1
-    };
-    spawnerOptions = {
-      spawnRate: 15000,
+      }, spawnerOptions: {
+        spawnRate: 5000,
       horizontalSpeed: 1.5,
       verticalSpeed: 1.33,
-      timeScale: 1
-    };
+      timeScale
+
+      }},
+      {options: {
+        position: new THREE.Vector3(),
+      positionRandomness: .3,
+      velocity: new THREE.Vector3(),
+      velocityRandomness: .5,
+      color: 0xc60029,
+      colorRandomness: .2,
+      turbulence: .5,
+      lifetime: 2,
+      size: 5,
+      sizeRandomness: 1
+      }, spawnerOptions: {
+        spawnRate: 5000,
+      horizontalSpeed: 1.5,
+      verticalSpeed: 1.33,
+      timeScale
+      }},
+      {options: {
+        position: new THREE.Vector3(),
+      positionRandomness: .3,
+      velocity: new THREE.Vector3(),
+      velocityRandomness: .5,
+      color: 0xc60029,
+      colorRandomness: .2,
+      turbulence: .5,
+      lifetime: 2,
+      size: 5,
+      sizeRandomness: 1
+      }, spawnerOptions: {
+        spawnRate: 5000,
+      horizontalSpeed: 1.5,
+      verticalSpeed: 1.33,
+      timeScale
+      }},
+      {options: {
+        position: new THREE.Vector3(),
+      positionRandomness: .3,
+      velocity: new THREE.Vector3(),
+      velocityRandomness: .5,
+      color: 0xc60029,
+      colorRandomness: .2,
+      turbulence: .5,
+      lifetime: 2,
+      size: 5,
+      sizeRandomness: 1
+      }, spawnerOptions: {
+        spawnRate: 5000,
+      horizontalSpeed: 1.5,
+      verticalSpeed: 1.33,
+      timeScale
+      }},
+      {options: {
+        position: new THREE.Vector3(),
+      positionRandomness: .3,
+      velocity: new THREE.Vector3(),
+      velocityRandomness: .5,
+      color: 0xc60029,
+      colorRandomness: .2,
+      turbulence: .5,
+      lifetime: 2,
+      size: 5,
+      sizeRandomness: 1
+      }, spawnerOptions: {
+        spawnRate: 5000,
+      horizontalSpeed: 1.5,
+      verticalSpeed: 1.33,
+      timeScale
+      }},
+    ];
     //
     //
     //
     renderer = new THREE.WebGLRenderer();
+    renderer.setClearColor( 0x111111, 1);
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( window.innerWidth, window.innerHeight );
     container.appendChild( renderer.domElement );
@@ -76,18 +164,20 @@ window.createMarkup = () => {
   }
   function animate() {
     requestAnimationFrame( animate );
-    var delta = clock.getDelta() * spawnerOptions.timeScale;
+    var delta = clock.getDelta() * timeScale;
     tick += delta;
     if ( tick < 0 ) tick = 0;
     if ( delta > 0 ) {
-      options.position.x = Math.sin( tick * spawnerOptions.horizontalSpeed ) * 20;
-      options.position.y = Math.sin( tick * spawnerOptions.verticalSpeed ) * 10;
-      options.position.z = Math.sin( tick * spawnerOptions.horizontalSpeed + spawnerOptions.verticalSpeed ) * 5;
-      for ( var x = 0; x < spawnerOptions.spawnRate * delta; x ++ ) {
-        // Yep, that's really it.	Spawning particles is super cheap, and once you spawn them, the rest of
-        // their lifecycle is handled entirely on the GPU, driven by a time uniform updated below
-        particleSystem.spawnParticle( options );
-      }
+      spawner.forEach(({options, spawnerOptions}, idx) => {
+        options.position.x = Math.sin( idx * 7 + tick * spawnerOptions.horizontalSpeed ) * 20;
+        options.position.y = Math.sin( idx *11 + tick * spawnerOptions.verticalSpeed ) * 10;
+        options.position.z = Math.sin( idx *13 + tick * spawnerOptions.horizontalSpeed + spawnerOptions.verticalSpeed ) * 5;
+        for ( var x = 0; x < spawnerOptions.spawnRate * delta; x ++ ) {
+          // Yep, that's really it.	Spawning particles is super cheap, and once you spawn them, the rest of
+          // their lifecycle is handled entirely on the GPU, driven by a time uniform updated below
+          particleSystem.spawnParticle( options );
+        }
+      })
     }
     particleSystem.update( tick );
     render();
