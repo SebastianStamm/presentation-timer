@@ -1,4 +1,4 @@
-const markup = `
+var markup = `
   <div id="container"></div>
   <svg style="position: absolute; bottom: 0; width: 100%" viewBox="0 0 580 400">
   <ellipse fill="rgba(0,0,0,0.7)" stroke="#000" stroke-width="1.5" cx="290" cy="450" id="svg_1" rx="398" ry="139.5" stroke-dasharray="none" fill-opacity="1"></ellipse>

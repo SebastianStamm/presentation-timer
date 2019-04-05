@@ -7,6 +7,8 @@
     window.location.replace("setup.html");
   }
 
+  config.effect = 'camunda';
+
   const visualSource = config.effect + '/index.js';
 
   // Setup Page
@@ -17,7 +19,7 @@
 
       //do stuff with the script
       title.textContent = config.title;
-      subtitle.textContent = config.subtitle;
+      //subtitle.textContent = config.subtitle;
 
       function animate() {
         const now = Date.now();

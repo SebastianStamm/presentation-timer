@@ -1,4 +1,17 @@
 <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.7.4/dist/semantic.min.css">
+<script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.7.4/dist/semantic.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<style>
+  .header {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    height: 50px;
+    z-index: 10000;
+    background-color: white;
+  }
+</style>
 <div id="bg" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0;" />
 <h1 style="font-family: 'Roboto Mono', monospace; text-align: center; color: white; font-size: 5em;" id="title"
   contenteditable="true">Spring Hack Day Presentations</h1>
@@ -24,10 +37,7 @@
 
 
 <script>
-  const config = JSON.parse(localStorage.getItem('countdownConfig') || `{title: 'Title',
-        subtitle: 'Subtitle',
-        time: '2019-04-05T16:00:00.000+0200',
-        effect: 'net'}`);
+  const config = JSON.parse(localStorage.getItem('countdownConfig') || `{"title":"Title","subtitle":"Subtitle","time":"2019-04-05T16:00:00.000+0200","effect":"net"}`);
 
 
   function loadVisuals(effect) {
@@ -35,20 +45,44 @@
     var  visualSource = effect + '/index.js';
     var script = document.createElement('script');
     script.onload = function () {
-      console.log('Script loaded');
       window.createMarkup(true);
 
       document.getElementById('bg').innerHTML += `
       <div class="header">
-  <h1>Header</h1>
-  <p>My supercool header</p>
-</div>
+      <div class="ui grid">
+          <div class="four wide column">
 
-    <select onchange="loadNewVisuals()" id="effect">
-    <option value="net" id="net">net</option>
-    <option value="birds" id="birds">birds</option>
-  </select>`;
 
+        Effect:
+      <select onchange="loadNewVisuals()" class="ui dropdown" id="effect">
+          <option>Effect</option>
+          <option value="net" id="net">net</option>
+          <option value="birds" id="birds">birds</option>
+          <option value="camunda" id="camunda">camunda</option>
+      </select>
+    </div>
+
+    <div class="four wide column">
+      <div class="ui calendar" id="calendar">
+    <div class="ui input left icon">
+      <i class="calendar icon"></i>
+      <input id="calendarInput" type="text" placeholder="Start Date">
+      </div>
+    </div>
+
+      </div>
+
+      <div class="four wide column">
+          <button class="ui button" onclick="submitForm()">
+            Go
+          </button>
+
+      </div>
+      </div>
+    `;
+      $('#calendar')
+        .calendar()
+      ;
       console.log(document.getElementById(effect));
       document.getElementById(effect).selected = 'selected';
 
@@ -56,16 +90,6 @@
       title.textContent = config.title;
       subtitle.textContent = config.subtitle;
 
-      // function animate() {
-      //   const now = Date.now();
-      //   if (endTime - now > 0) {
-      //     // render time after
-      //     timer.textContent = convertRemaining(endTime - now);
-      //   } else {
-      //     timer.textContent = "00:00";
-      //   }
-      //   requestAnimationFrame(animate);
-      // }
       function convertRemaining(milliseconds) {
         const minutes = Math.floor(milliseconds / 60 / 1000);
         const seconds = Math.floor((milliseconds / 1000) % 60);
@@ -89,11 +113,11 @@
   loadVisuals(config.effect);
 
   function submitForm(event) {
-    console.log(effect.value);
+    console.log(moment(calendarInput.value).toISOString());
     var config = {
       title: title.textContent,
       subtitle: subtitle.textContent,
-      time: timer.textContent,
+      time: moment(calendarInput.value).toISOString(),
       effect: effect.value
     };
     localStorage.setItem('countdownConfig', JSON.stringify(config));
