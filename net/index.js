@@ -10,26 +10,26 @@ window.createMarkup = () => {
   {
     const script = document.createElement('script');
     script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/97/three.min.js';
+    script.onload = () => {
+      {
+        const script = document.createElement('script');
+        script.src = 'https://www.vantajs.com/dist/vanta.net.min.js';
+        script.onload = () => {
+          {
+            const script = document.createElement('script');
+            script.innerHTML = ` VANTA.NET({
+              el: "#bg",
+              color: 0x3fa4ff
+            })`;
 
+            document.head.appendChild(script);
+
+            }
+          }
+        document.head.appendChild(script);
+        }
+    }
     document.head.appendChild(script);
-    }
-  {
-  const script = document.createElement('script');
-  script.src = 'https://www.vantajs.com/dist/vanta.net.min.js';
-  script.onload = () => {
-    {
-      const script = document.createElement('script');
-      script.innerHTML = ` VANTA.NET({
-        el: "#bg",
-        color: 0x3fa4ff
-      })`;
-
-      document.head.appendChild(script);
-
-      }
-    }
-  document.head.appendChild(script);
   }
-
   document.body.innerHTML = markup;
 }
