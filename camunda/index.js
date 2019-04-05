@@ -10,8 +10,8 @@ window.createMarkup = () => {
   <div id="subtitle" style="display: none"></div>
 `;
 
-  // const endTime = new Date("2019-04-05T16:00:00.000+0200").valueOf();
-  const endTime = Date.now() + 5000;
+  var audio = new Audio("start.mp3");
+  const endTime = new Date("2019-04-05T16:00:00.000+0200").valueOf();
 
   document.body.innerHTML = markup;
 
@@ -42,6 +42,8 @@ window.createMarkup = () => {
     });
   }, 200);
 
+  let animationStarted = false;
+  let animationProgress = 0;
   setTimeout(() => {
     var camera,
       tick = 0,
@@ -81,8 +83,9 @@ window.createMarkup = () => {
 
       timeScale = 0.1;
 
-      spawner = [
-        {
+      spawner = [];
+      for (let i = 0; i < 10; i++) {
+        spawner.push({
           options: {
             position: new THREE.Vector3(),
             positionRandomness: 0.3,
@@ -96,133 +99,13 @@ window.createMarkup = () => {
             sizeRandomness: 1
           },
           spawnerOptions: {
-            spawnRate: 5000,
-            horizontalSpeed: 3 * Math.random(),
-            verticalSpeed: 2.6 * Math.random(),
+            spawnRate: 15000,
+            horizontalSpeed: 0.5 + 2.5 * Math.random(),
+            verticalSpeed: 0.5 + 2.1 * Math.random(),
             timeScale
           }
-        },
-        {
-          options: {
-            position: new THREE.Vector3(),
-            positionRandomness: 0.3,
-            velocity: new THREE.Vector3(),
-            velocityRandomness: 0.5,
-            color: 0xc60029,
-            colorRandomness: 0.2,
-            turbulence: 0.5,
-            lifetime: 2,
-            size: 5 + 5 * Math.random(),
-            sizeRandomness: 1
-          },
-          spawnerOptions: {
-            spawnRate: 5000,
-            horizontalSpeed: 3 * Math.random(),
-            verticalSpeed: 2.6 * Math.random(),
-            timeScale
-          }
-        },
-        {
-          options: {
-            position: new THREE.Vector3(),
-            positionRandomness: 0.3,
-            velocity: new THREE.Vector3(),
-            velocityRandomness: 0.5,
-            color: 0xc60029,
-            colorRandomness: 0.2,
-            turbulence: 0.5,
-            lifetime: 2,
-            size: 5 + 5 * Math.random(),
-            sizeRandomness: 1
-          },
-          spawnerOptions: {
-            spawnRate: 5000,
-            horizontalSpeed: 3 * Math.random(),
-            verticalSpeed: 2.6 * Math.random(),
-            timeScale
-          }
-        },
-        {
-          options: {
-            position: new THREE.Vector3(),
-            positionRandomness: 0.3,
-            velocity: new THREE.Vector3(),
-            velocityRandomness: 0.5,
-            color: 0xc60029,
-            colorRandomness: 0.2,
-            turbulence: 0.5,
-            lifetime: 2,
-            size: 5 + 5 * Math.random(),
-            sizeRandomness: 1
-          },
-          spawnerOptions: {
-            spawnRate: 5000,
-            horizontalSpeed: 3 * Math.random(),
-            verticalSpeed: 2.6 * Math.random(),
-            timeScale
-          }
-        },
-        {
-          options: {
-            position: new THREE.Vector3(),
-            positionRandomness: 0.3,
-            velocity: new THREE.Vector3(),
-            velocityRandomness: 0.5,
-            color: 0xc60029,
-            colorRandomness: 0.2,
-            turbulence: 0.5,
-            lifetime: 2,
-            size: 5 + 5 * Math.random(),
-            sizeRandomness: 1
-          },
-          spawnerOptions: {
-            spawnRate: 5000,
-            horizontalSpeed: 3 * Math.random(),
-            verticalSpeed: 2.6 * Math.random(),
-            timeScale
-          }
-        },
-        {
-          options: {
-            position: new THREE.Vector3(),
-            positionRandomness: 0.3,
-            velocity: new THREE.Vector3(),
-            velocityRandomness: 0.5,
-            color: 0xc60029,
-            colorRandomness: 0.2,
-            turbulence: 0.5,
-            lifetime: 2,
-            size: 5 + 5 * Math.random(),
-            sizeRandomness: 1
-          },
-          spawnerOptions: {
-            spawnRate: 5000,
-            horizontalSpeed: 3 * Math.random(),
-            verticalSpeed: 2.6 * Math.random(),
-            timeScale
-          }
-        },
-        {
-          options: {
-            position: new THREE.Vector3(),
-            positionRandomness: 0.3,
-            velocity: new THREE.Vector3(),
-            velocityRandomness: 0.5,
-            color: 0xc60029,
-            colorRandomness: 0.2,
-            turbulence: 0.5,
-            lifetime: 2,
-            size: 5 + 5 * Math.random(),
-            sizeRandomness: 1
-          },
-          spawnerOptions: {
-            spawnRate: 5000,
-            horizontalSpeed: 3 * Math.random(),
-            verticalSpeed: 2.6 * Math.random(),
-            timeScale
-          }
-        }
-      ];
+        });
+      }
       //
       //
       //
@@ -257,15 +140,15 @@ window.createMarkup = () => {
       if (delta > 0) {
         spawner.forEach(({ options, spawnerOptions }, idx) => {
           options.position.x =
-            Math.sin(idx * 479 + tick * spawnerOptions.horizontalSpeed) * 40;
+            Math.sin(idx * 479 + tick * spawnerOptions.horizontalSpeed) * 60;
           options.position.y =
-            Math.sin(idx * 311 + tick * spawnerOptions.verticalSpeed) * 20;
+            Math.sin(idx * 311 + tick * spawnerOptions.verticalSpeed) * 30;
           options.position.z =
             Math.sin(
               idx * 83 +
                 tick * spawnerOptions.horizontalSpeed +
                 spawnerOptions.verticalSpeed
-            ) * 10;
+            ) * 15;
           for (var x = 0; x < spawnerOptions.spawnRate * delta; x++) {
             // Yep, that's really it.	Spawning particles is super cheap, and once you spawn them, the rest of
             // their lifecycle is handled entirely on the GPU, driven by a time uniform updated below
@@ -280,7 +163,7 @@ window.createMarkup = () => {
       renderer.render(scene, camera);
     }
 
-    let animationStarted = false;
+    let oscillator, audioCtx;
     function animationProgression(left) {
       if (left < 60000 && left >= 0) {
         timeScale = 0.1 + ((60000 - left) / 60000) * 0.9;
@@ -290,6 +173,54 @@ window.createMarkup = () => {
         document.getElementById("logo").style.opacity =
           "" + (0.1 + ((60000 - left) / 60000) * 0.9);
       }
+      if (left < 4000 && animationProgress === 0) {
+        animationProgress++;
+        // create web audio api context
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (left < 3000 && animationProgress === 1) {
+        animationProgress++;
+        oscillator = audioCtx.createOscillator();
+
+        oscillator.type = "sine";
+        oscillator.frequency.setValueAtTime(440, audioCtx.currentTime); // value in hertz
+        oscillator.connect(audioCtx.destination);
+        oscillator.start();
+      }
+      if (left < 2800 && animationProgress === 2) {
+        animationProgress++;
+        oscillator.stop();
+      }
+      if (left < 2000 && animationProgress === 3) {
+        animationProgress++;
+        oscillator = audioCtx.createOscillator();
+
+        oscillator.type = "sine";
+        oscillator.frequency.setValueAtTime(440, audioCtx.currentTime); // value in hertz
+        oscillator.connect(audioCtx.destination);
+        oscillator.start();
+      }
+      if (left < 1800 && animationProgress === 4) {
+        animationProgress++;
+        oscillator.stop();
+      }
+      if (left < 1000 && animationProgress === 5) {
+        animationProgress++;
+        oscillator = audioCtx.createOscillator();
+
+        oscillator.type = "sine";
+        oscillator.frequency.setValueAtTime(440, audioCtx.currentTime); // value in hertz
+        oscillator.connect(audioCtx.destination);
+        oscillator.start();
+      }
+      if (left < 800 && animationProgress === 6) {
+        animationProgress++;
+        oscillator.stop();
+      }
+
+      if (left < -2000) {
+        timeScale = 0.4;
+      }
       if (left <= 0 && !animationStarted) {
         animationStarted = true;
         startAnimation();
@@ -297,6 +228,7 @@ window.createMarkup = () => {
     }
 
     async function startAnimation() {
+      audio.play();
       document.querySelector("svg").style.bottom = "-300px";
       document.querySelector("#timer").style.bottom = "-300px";
       document.querySelector("#logo").style.transform = "scale(1.3)";
