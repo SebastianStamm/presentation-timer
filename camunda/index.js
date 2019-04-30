@@ -1,19 +1,27 @@
 window.createMarkup = () => {
   const markup = `
-  <img src="camunda.svg" id="logo" style="transition: transform 1s, margin-top 1s; position: absolute; z-index:-1; width: 30vw; margin-left: 35vw; margin-top: 100px;" />
+  <style>
+  @import url('https://fonts.googleapis.com/css?family=Gugi|Roboto+Mono');
+  </style>
+  <img src="camunda.svg" id="logo" style="transition: transform 1s, margin-top 1s; position: absolute; z-index:-1; width: 30vw; margin-left: 35vw; margin-top: 175px;" />
   <div id="container" style="transition: transform 2s;"></div>
   <svg style="transition: bottom 2s; position: absolute; bottom: 0; width: 100%" viewBox="0 0 580 400">
   <ellipse fill="rgba(0,0,0,0.7)" stroke="#000" stroke-width="1.5" cx="290" cy="450" id="svg_1" rx="398" ry="139.5" stroke-dasharray="none" fill-opacity="1"></ellipse>
   </svg>
   <div id="timer" style="transition: bottom 2s; font-family: 'Roboto Mono', monospace; position: absolute; bottom: 60px; width: 100%; text-align: center; font-size: 130px; color: white;"></div>
-  <div id="title" style="font-family: 'Roboto Mono', monospace; position: absolute; top: 60px; width: 100%; text-align: center; font-size: 70px; color: white;">Spring Hack Day Presentations<div>
-  <div id="subtitle" style="display: none"></div>
+  <div id="title" style="font-family: 'Gugi', cursive; position: absolute; top: 60px; width: 100%; text-align: center; font-size: 70px; color: white;"></div>
+  <div id="subtitle" style="font-family: 'Gugi', cursive; position: absolute; top: 200px; width: 100%; text-align: center; font-size: 35px; color: white;"></div>
 `;
 
+  const params = new URLSearchParams(window.location.search);
+
   var audio = new Audio("start.mp3");
-  const endTime = new Date("2019-04-05T16:00:00.000+0200").valueOf();
+  const endTime = new Date(params.get("time")).valueOf();
 
   document.body.innerHTML = markup;
+
+  document.querySelector("#title").textContent = params.get("title");
+  document.querySelector("#subtitle").textContent = params.get("subtitle");
 
   document.body.style.margin = "0";
   document.body.style.overflow = "hidden";
@@ -21,13 +29,13 @@ window.createMarkup = () => {
 
   document.getElementById("logo").style.opacity = "0.1";
 
-  const font = document.createElement("link");
-  font.setAttribute(
-    "href",
-    "https://fonts.googleapis.com/css?family=Roboto+Mono"
-  );
-  font.setAttribute("ref", "stylesheet");
-  document.head.appendChild(font);
+  // const font = document.createElement("link");
+  // font.setAttribute(
+  //   "href",
+  //   "https://fonts.googleapis.com/css?family=Gugi|Roboto+Mono"
+  // );
+  // font.setAttribute("ref", "stylesheet");
+  // document.head.appendChild(font);
 
   ["three.js"].forEach(src => {
     const scriptTag = document.createElement("script");
@@ -232,7 +240,7 @@ window.createMarkup = () => {
       document.querySelector("svg").style.bottom = "-300px";
       document.querySelector("#timer").style.bottom = "-300px";
       document.querySelector("#logo").style.transform = "scale(1.3)";
-      document.querySelector("#logo").style.marginTop = "200px";
+      document.querySelector("#logo").style.marginTop = "275px";
       document.querySelector("#container").style.transform = "scale(10)";
     }
   }, 400);
