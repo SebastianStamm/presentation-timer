@@ -29,14 +29,6 @@ window.createMarkup = () => {
 
   document.getElementById("logo").style.opacity = "0.1";
 
-  // const font = document.createElement("link");
-  // font.setAttribute(
-  //   "href",
-  //   "https://fonts.googleapis.com/css?family=Gugi|Roboto+Mono"
-  // );
-  // font.setAttribute("ref", "stylesheet");
-  // document.head.appendChild(font);
-
   ["three.js"].forEach(src => {
     const scriptTag = document.createElement("script");
     scriptTag.setAttribute("src", src);
@@ -64,6 +56,8 @@ window.createMarkup = () => {
       spawnerOptions,
       particleSystem,
       spawner,
+      oscillator,
+      audioCtx,
       timeScale;
     var stats;
     init();
@@ -124,6 +118,23 @@ window.createMarkup = () => {
       container.appendChild(renderer.domElement);
       //
       window.addEventListener("resize", onWindowResize, false);
+
+      const now = Date.now();
+      if (endTime - now < 0) {
+        animationStarted = true;
+
+        document.querySelector("svg").style.transition = "";
+        document.querySelector("svg").style.bottom = "-300px";
+        document.querySelector("#timer").style.transition = "";
+        document.querySelector("#timer").style.bottom = "-300px";
+        document.querySelector("#logo").style.transition = "";
+        document.querySelector("#logo").style.transform = "scale(1.3)";
+        document.querySelector("#logo").style.marginTop = "275px";
+        document.querySelector("#container").style.transition = "";
+        document.querySelector("#container").style.transform = "scale(10)";
+        document.getElementById("logo").style.opacity = "1";
+        timeScale = 0.4;
+      }
     }
     function onWindowResize() {
       camera.aspect = window.innerWidth / window.innerHeight;
@@ -143,6 +154,11 @@ window.createMarkup = () => {
       animationProgression(endTime - now);
 
       var delta = clock.getDelta() * timeScale;
+
+      if (delta > 1) {
+        return location.reload();
+      }
+
       tick += delta;
       if (tick < 0) tick = 0;
       if (delta > 0) {
@@ -170,8 +186,6 @@ window.createMarkup = () => {
     function render() {
       renderer.render(scene, camera);
     }
-
-    let oscillator, audioCtx;
     function animationProgression(left) {
       if (left < 60000 && left >= 0) {
         timeScale = 0.1 + ((60000 - left) / 60000) * 0.9;
