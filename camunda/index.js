@@ -1,6 +1,6 @@
 window.createMarkup = () => {
   const markup = `
-  <div id="timer" style="position: absolute; top: 720px; width: 100%; text-align: center; font-size: 54px; color: white;"></div>
+  <div id="timer" style="position: absolute; bottom: 170; width: 100%; text-align: center; font-size: 54px; color: white;"></div>
   <div id="title" style="position: absolute; top: 470px; font-size: 70px; font-weight: bold; color: white; left: 75px;"></div>
   <div id="subtitle" style="position: absolute; top: 570px; font-size: 42px; color: white; left: 75px;"></div>
 `;
@@ -11,8 +11,8 @@ window.createMarkup = () => {
 
   document.body.innerHTML = markup;
 
-  document.querySelector("#title").textContent = params.get("title");
-  document.querySelector("#subtitle").textContent = params.get("subtitle");
+  document.querySelector("#title").innerHTML = params.get("title");
+  document.querySelector("#subtitle").innerHTML = params.get("subtitle");
 
   function animate() {
     const now = Date.now();
